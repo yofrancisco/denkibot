@@ -1,0 +1,35 @@
+{
+  "name": "denkibot",
+  "version": "1.0.0",
+  "description": "denki genki",
+  "author": "denki",
+  "main": "denkibot.js",
+  "scripts": {
+    "denki": "node src/denkibot.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@slack/client": "^3.10.0",
+    "cubeify": "^0.0.4",
+    "eslint": "^2.8.0",
+    "eslint-config-airbnb": "^7.0.0",
+    "eslint-plugin-jsx-a11y": "^0.6.2",
+    "eslint-plugin-react": "^4.3.0",
+    "global": "^4.3.1",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-env": "^0.4.4",
+    "grunt-eslint": "^18.1.0",
+    "htmlparser2": "^3.9.2",
+    "load-grunt-config": "^0.19.2",
+    "mathjs": "^3.13.1",
+    "natural": "^0.4.0",
+    "pokemon": "^1.2.0",
+    "soupselect": "^0.2.0",
+    "sqlite3": "^3.1.8",
+    "text-table": "^0.2.0",
+    "time-grunt": "^1.4.0"
+  }
+}
