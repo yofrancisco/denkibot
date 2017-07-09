@@ -13,8 +13,13 @@ class Test extends DenkibotCommand {
   respond(originalMessage) {
     let messaji = originalMessage.text;
     messaji = messaji.replace(/!math/g, '');
-    const x = math.eval(messaji);
-    this.simpleDenki(originalMessage, x);
+    try {
+      const x = math.eval(messaji);
+      this.simpleDenki(originalMessage, x);
+    } catch(err) {
+      //
+      this.simpleDenki(originalMessage, "no");
+    }
   }
 }
 
