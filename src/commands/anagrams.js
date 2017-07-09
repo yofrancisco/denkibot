@@ -69,7 +69,7 @@ class Anagram extends DenkibotCommand {
         }
       });
     } else {
-      this.simpleDenki(originalMessage, `<@${this.getUsernameById(originalMessage.user)}> no ${messaji}`);
+      this.simpleDenki(originalMessage, `<@${this.parent.getUsernameById(originalMessage.user)}> no ${messaji}`);
     }
   }
 }
