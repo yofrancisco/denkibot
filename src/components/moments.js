@@ -77,6 +77,49 @@ function deleteMoment(originalMessage, originalSelf) {
   }
 }
 
+function getMomentBlame(originalMessage, self) {
+  let messaji = (originalMessage.text);
+  messaji = messaji.replace(/!mangoquotes/, "");
+  messaji = messaji.replace(/!mangomemories/, "");
+  messaji = messaji.replace(/!mangomoments/, "");
+  messaji = messaji.replace(/!memory/, "");
+  messaji = messaji.replace(/!memories/, "");
+  messaji = messaji.replace(/!moments/, "");
+  messaji = messaji.replace(/add/, "");
+  messaji = messaji.replace(/blame/, "");
+  messaji = messaji.trim();
+
+  const momentNo = parseInt(messaji, 10);
+  console.log(momentNo);
+
+  if(momentNo && (originalMessage.user === config.meID)) {
+    self.db.all(
+      `
+      select mangomoment, no_id, user_id
+      from mangomoments
+      where no_id = '${momentNo}'
+      limit 1
+      `,
+      (err, moment) => {
+        console.log(moment);
+        if(moment.length > 0) {
+          self.simpleDenki(originalMessage, `<@${self.getUsernameById(originalMessage.user)}> made by <@${moment[0].user_id}>`);
+        } else {
+          self.db.all(
+            `
+            select mangomoment, no_id, user_id
+            from mangomoments
+            order by random()
+            limit 1
+            `,
+            (err, moment) => {
+              console.log(moment);
+              self.simpleDenki(originalMessage, `<@${self.getUsernameById(originalMessage.user)}> _#${moment[0].no_id}._ ${moment[0].mangomoment}`);
+            });
+        }
+      });
+  }
+}
 function getMoment(originalMessage, self) {
   let messaji = (originalMessage.text);
   messaji = messaji.replace(/!mangoquotes/, "");
@@ -86,6 +129,7 @@ function getMoment(originalMessage, self) {
   messaji = messaji.replace(/!memories/, "");
   messaji = messaji.replace(/!moments/, "");
   messaji = messaji.replace(/add/, "");
+  messaji = messaji.replace(/blame/, "");
   messaji = messaji.trim();
 
   const momentNo = parseInt(messaji, 10);
@@ -146,7 +190,7 @@ function getMoment(originalMessage, self) {
 
 function initMoment(originalMessage, self) {
   const initMoments = [
-    '_that one time we added denkibot and our lives were changed forever_',
+    '',
   ];
 
   self.db.serialize(() => {
@@ -169,6 +213,9 @@ exports.addMoment = (originalMessage, self) => {
 
 exports.getMoment = (originalMessage, self) => {
   getMoment(originalMessage, self);
+}
+exports.getMomentBlame = (originalMessage, self) => {
+  getMomentBlame(originalMessage, self);
 }
 
 exports.deleteMoment = (originalMessage, self) => {
