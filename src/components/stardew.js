@@ -119,7 +119,7 @@ function friendships(originalMessage, self) {
       user_id,
       friend_id,
       sum(hearts) as hearts,
-      sum(case when (gift is not null) and (awarded_date between (date()-7) and (date())) and (originalfriend_id != '${user_id}') then 1 else 0 end) as gift
+      sum(case when (gift is not null) and (awarded_date between (datetime('now', '-7 day')) and (date())) and (originalfriend_id != '${user_id}') then 1 else 0 end) as gift
       from (
         select user_id, friend_id, awarded_date, hearts, gift, friend_id as originalfriend_id
           from heartpoints
@@ -149,9 +149,11 @@ function friendships(originalMessage, self) {
         const emptyHeartString = '♡'.repeat(10 - totalhearts);
 
         let totalGifts = parseInt(heartpointsUser.gift);
+
         if (totalGifts > 2) {
           totalGifts = 2;
         }
+
         if (totalGifts < 0) {
           totalGifts = 0;
         }
