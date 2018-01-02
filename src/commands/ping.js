@@ -10,7 +10,7 @@ class Ping extends DenkibotCommand {
   }
 
   respond(originalMessage) {
-    this.simpleDenki(originalMessage, "!pong");
+    this.simpleDenki(originalMessage, '!pong');
   }
 }
 

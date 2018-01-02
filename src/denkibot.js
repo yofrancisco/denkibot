@@ -6,11 +6,10 @@
 const Denkibot = require('./lib/denki');
 const config = require('./config');
 
-
 const denkibot = new Denkibot({
   botToken: config.botToken,
   dbPath: config.dbPath,
-  name: config.botName
+  name: config.botName,
 });
 
 denkibot.run();

@@ -4,24 +4,33 @@ const heartMultiplier = 1;
 
 function calcHearts(originalMessage, self) {
   let hearts = 1;
-  let emoji = ":heart_eyes_cat:";
+  let emoji = ':heart_eyes_cat:';
   const regexNumber = /\d+/;
   const regexUserID = /\<@(.*?)\>/gi;
-  const messaji = (originalMessage.text).replace(regexUserID, "");
+  const messaji = originalMessage.text.replace(regexUserID, '');
 
-  if(regexNumber.test(messaji)) {
-    hearts = parseInt((messaji).match(regexNumber)[0]);
+  if (regexNumber.test(messaji)) {
+    hearts = parseInt(messaji.match(regexNumber)[0]);
   }
 
   if (originalMessage.text.indexOf('-') !== -1) {
     hearts = hearts * -1;
-    emoji = ":skull_and_crossbones:";
+    emoji = ':skull_and_crossbones:';
   }
 
   self.db.each('select * from users', (err, row) => {
     // console.log(row);
-    if ((originalMessage.text.indexOf(`${self.getUsernameById(row.user_id)}`) !== -1) || (originalMessage.text.indexOf(`${row.user_id}`) !== -1)) {
-      self.simpleDenki(originalMessage, `<@${self.getUsernameById(originalMessage.user)}> ${emoji} <@${self.getUsernameById(row.user_id)}>`);
+    if (
+      originalMessage.text.indexOf(`${self.getUsernameById(row.user_id)}`) !==
+        -1 ||
+      originalMessage.text.indexOf(`${row.user_id}`) !== -1
+    ) {
+      self.simpleDenki(
+        originalMessage,
+        `<@${self.getUsernameById(
+          originalMessage.user,
+        )}> ${emoji} <@${self.getUsernameById(row.user_id)}>`,
+      );
 
       self.db.serialize(() => {
         self.db.run(
@@ -31,41 +40,51 @@ function calcHearts(originalMessage, self) {
           ${new Date().getTime()},
           (select date()),
           ${hearts},
-          null)`
+          null)`,
         );
         getFriendship(originalMessage, row, self);
         return;
       });
     }
-
   });
 }
 
 function gift(originalMessage, self) {
   let hearts = 1;
-  let emoji = ":watermelon:";
+  let emoji = ':watermelon:';
   const regexNumber = /\d+/;
   const regexUserID = /\<@(.*?)\>/i;
-  let messaji = (originalMessage.text).replace(regexUserID, "");
-  messaji = messaji.replace(/gift/, "");
-  messaji = messaji.replace(/\!/, "");
+  let messaji = originalMessage.text.replace(regexUserID, '');
+  messaji = messaji.replace(/gift/, '');
+  messaji = messaji.replace(/\!/, '');
   console.log(messaji);
 
-  if(regexNumber.test(messaji)) {
-    hearts = parseInt((messaji).match(regexNumber)[0]);
+  if (regexNumber.test(messaji)) {
+    hearts = parseInt(messaji.match(regexNumber)[0]);
   }
 
   if (originalMessage.text.indexOf('-') !== -1) {
     hearts = hearts * -1;
-    emoji = ":hankey:";
+    emoji = ':hankey:';
   }
 
   self.db.each('select * from users', (err, row) => {
     // console.log(row);
-    if ((originalMessage.text.indexOf(`${self.getUsernameById(row.user_id)}`) !== -1) || (originalMessage.text.indexOf(`${row.user_id}`) !== -1)) {
-      messaji = messaji.replace(`${self.getUsernameById(row.user_id)}`, "").trim();
+    if (
+      originalMessage.text.indexOf(`${self.getUsernameById(row.user_id)}`) !==
+        -1 ||
+      originalMessage.text.indexOf(`${row.user_id}`) !== -1
+    ) {
+      messaji = messaji
+        .replace(`${self.getUsernameById(row.user_id)}`, '')
+        .trim();
       console.log(messaji);
-      self.simpleDenki(originalMessage, `<@${self.getUsernameById(originalMessage.user)}> gifted <@${self.getUsernameById(row.user_id)}> ${messaji} ${emoji}`);
+      self.simpleDenki(
+        originalMessage,
+        `<@${self.getUsernameById(
+          originalMessage.user,
+        )}> gifted <@${self.getUsernameById(row.user_id)}> ${messaji} ${emoji}`,
+      );
 
       self.db.serialize(() => {
         self.db.run(
@@ -75,13 +94,12 @@ function gift(originalMessage, self) {
           ${new Date().getTime()},
           (select date()),
           ${hearts},
-          "${messaji}")`
+          "${messaji}")`,
         );
         getFriendship(originalMessage, row, self);
         return;
       });
     }
-
   });
 }
 
@@ -90,8 +108,8 @@ function friendships(originalMessage, self) {
   const messaji = originalMessage.text;
 
   const regexUserID = /\<@(.*?)\>/i;
-  if(regexUserID.test(messaji)) {
-    user_id = (messaji.match(regexUserID)[0]).replace(/[@<>]/g,"");
+  if (regexUserID.test(messaji)) {
+    user_id = messaji.match(regexUserID)[0].replace(/[@<>]/g, '');
     console.log(user_id);
   }
 
@@ -117,7 +135,7 @@ function friendships(originalMessage, self) {
     (err, heartpoints) => {
       // console.log(`${heartpoints.length} ${heartpoints}`);
       console.log(heartpoints);
-      const data = heartpoints.map((heartpointsUser) => {
+      const data = heartpoints.map(heartpointsUser => {
         const name = self.getUsernameById(heartpointsUser.friend_id);
         let totalhearts = parseInt(heartpointsUser.hearts * heartMultiplier);
         if (totalhearts > 10) {
@@ -127,8 +145,8 @@ function friendships(originalMessage, self) {
           totalhearts = 0;
         }
         // const heartString = "❤".repeat(totalhearts);
-        const heartString = "♥".repeat(totalhearts);
-        const emptyHeartString = "♡".repeat(10 - totalhearts);
+        const heartString = '♥'.repeat(totalhearts);
+        const emptyHeartString = '♡'.repeat(10 - totalhearts);
 
         let totalGifts = parseInt(heartpointsUser.gift);
         if (totalGifts > 2) {
@@ -138,17 +156,31 @@ function friendships(originalMessage, self) {
           totalGifts = 0;
         }
 
-        const giftString = "☑".repeat(totalGifts);
-        const emptyGiftString = "☐".repeat(2 - totalGifts);
-        const presentEmoji = "🎁";
-        return [name, heartString + emptyHeartString, (parseInt(heartpointsUser.hearts * heartMultiplier)), presentEmoji + giftString + emptyGiftString];
+        const giftString = '☑'.repeat(totalGifts);
+        const emptyGiftString = '☐'.repeat(2 - totalGifts);
+        const presentEmoji = '🎁';
+        return [
+          name,
+          heartString + emptyHeartString,
+          parseInt(heartpointsUser.hearts * heartMultiplier),
+          presentEmoji + giftString + emptyGiftString,
+        ];
       });
       if (heartpoints.length === 0) {
-        self.simpleDenki(originalMessage, `<@${self.getUsernameById(user_id)}> \`!heart <user>\` to start your journey`);
+        self.simpleDenki(
+          originalMessage,
+          `<@${self.getUsernameById(
+            user_id,
+          )}> \`!heart <user>\` to start your journey`,
+        );
       } else {
-        self.simpleDenki(originalMessage, `<@${user_id}>'s heartpoints: \`\`\`\n${table(data)}\`\`\``);
+        self.simpleDenki(
+          originalMessage,
+          `<@${user_id}>'s heartpoints: \`\`\`\n${table(data)}\`\`\``,
+        );
       }
-    });
+    },
+  );
 }
 
 function getFriendship(originalMessage, friend_row, self) {
@@ -171,21 +203,31 @@ function getFriendship(originalMessage, friend_row, self) {
       totalHeartpoints = parseInt(heartpoints[0].hearts * heartMultiplier);
       // console.log(heartpoints);
       // console.log(totalHeartpoints);
-      if(originalMessage.text.indexOf('-') === -1 && totalHeartpoints % 2 === 0 && totalHeartpoints > 0 && totalHeartpoints <= 10) {
-        self.simpleDenki(originalMessage, `<@${self.getUsernameById(originalMessage.user)}> a new cutscene awaits you`);
+      if (
+        originalMessage.text.indexOf('-') === -1 &&
+        totalHeartpoints % 2 === 0 &&
+        totalHeartpoints > 0 &&
+        totalHeartpoints <= 10
+      ) {
+        self.simpleDenki(
+          originalMessage,
+          `<@${self.getUsernameById(
+            originalMessage.user,
+          )}> a new cutscene awaits you`,
+        );
       }
-
-    });
+    },
+  );
 }
 
 exports.calcHearts = (originalMessage, self) => {
   calcHearts(originalMessage, self);
-}
+};
 
 exports.friendships = (originalMessage, self) => {
   friendships(originalMessage, self);
-}
+};
 
 exports.gift = (originalMessage, self) => {
   gift(originalMessage, self);
-}
+};

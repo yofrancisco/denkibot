@@ -10,7 +10,7 @@ class Chu extends DenkibotCommand {
   }
 
   respond(originalMessage) {
-    this.simpleDenki(originalMessage, "!bless you");
+    this.simpleDenki(originalMessage, '!bless you');
   }
 }
 

@@ -10,7 +10,7 @@ class Genki extends DenkibotCommand {
   }
 
   respond(originalMessage) {
-    this.simpleDenki(originalMessage, "!denki");
+    this.simpleDenki(originalMessage, '!denki');
   }
 }
 

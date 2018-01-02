@@ -1,6 +1,7 @@
 'use strict';
 
-const text = '\
+const text =
+  '\
 Try:\
 ```\r\
 !heart <user><++/-->\r\
@@ -30,4 +31,4 @@ Try:\
 
 exports.denki = () => {
   return text;
-}
+};

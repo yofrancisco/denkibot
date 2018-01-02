@@ -26,13 +26,13 @@ function generatecompliment(originalMessage) {
     `Y O U D I R T Y C O M P L I M E N T N A R C I S S I S T`,
     `( ⊙ || ⊙)`,
     `you look into your monitor reflection, it's you.`,
-    `You don't want to keep doing this <@${originalMessage.user}>.`
+    `You don't want to keep doing this <@${originalMessage.user}>.`,
   ];
   var compliment = compliments[Math.floor(Math.random() * compliments.length)];
 
   return `${compliment}`;
 }
 
-exports.getCompliment = (originalMessage) => {
+exports.getCompliment = originalMessage => {
   return generatecompliment(originalMessage);
-}
+};

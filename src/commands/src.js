@@ -10,7 +10,10 @@ class Src extends DenkibotCommand {
   }
 
   respond(originalMessage) {
-    this.simpleDenki(originalMessage, ":francas: https://github.com/francismartinez/denkibot");
+    this.simpleDenki(
+      originalMessage,
+      ':francas: https://github.com/francismartinez/denkibot',
+    );
   }
 }
 

@@ -7,7 +7,7 @@ const pokemon = require('pokemon');
 class Pokemon extends DenkibotCommand {
   constructor(parent) {
     super(parent);
-    this.keywords = ['!pokemon','!digimon'];
+    this.keywords = ['!pokemon', '!digimon'];
     this.name = '!pokemon';
   }
 
@@ -22,10 +22,12 @@ class Pokemon extends DenkibotCommand {
       if (messaji.match(/^[0-9]+$/) !== null) {
         try {
           if (pokemon.getName(parseInt(messaji))) {
-            self.simpleDenki(originalMessage, `It's ${pokemon.getName(parseInt(messaji))}`);
+            self.simpleDenki(
+              originalMessage,
+              `It's ${pokemon.getName(parseInt(messaji))}`,
+            );
           }
-        }
-        catch(err) {
+        } catch (err) {
           self.simpleDenki(originalMessage, `It's ${pokemon.random()}`);
         }
       } else {
@@ -35,10 +37,12 @@ class Pokemon extends DenkibotCommand {
           messaji = messaji.charAt(0).toUpperCase() + messaji.slice(1);
           // console.log(messaji);
           if (pokemon.getId(messaji)) {
-            self.simpleDenki(originalMessage, `#${pokemon.getId(messaji)} It's ${messaji}`);
+            self.simpleDenki(
+              originalMessage,
+              `#${pokemon.getId(messaji)} It's ${messaji}`,
+            );
           }
-        }
-        catch(err) {
+        } catch (err) {
           self.simpleDenki(originalMessage, `It's ${pokemon.random()}`);
         }
       }

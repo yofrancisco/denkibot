@@ -1,6 +1,7 @@
 'use strict';
 
-const text = '\
+const text =
+  '\
 ```\r\
             T I M E W E L L S P E N T\r\
           / I                     / I\r\
@@ -26,4 +27,4 @@ T I M E W E L L S P E N T\r\
 
 exports.denki = () => {
   return text;
-}
+};

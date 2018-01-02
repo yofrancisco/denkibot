@@ -24,7 +24,7 @@ class Cube extends DenkibotCommand {
     messaji = messaji.replace(/-dashed/g, '');
     messaji = messaji.replace(/-d/g, '');
     messaji = messaji.replace(/\W/g, '');
-    messaji = messaji.replace(/[^0-9a-z]/gi, '')
+    messaji = messaji.replace(/[^0-9a-z]/gi, '');
     messaji = messaji.replace(/[0-9]/g, '');
     messaji = messaji.trim();
     console.log(messaji);
@@ -32,7 +32,10 @@ class Cube extends DenkibotCommand {
     if (messaji.length > 25) {
       self.simpleDenki(originalMessage, "too long ~ denki can't compute");
     } else {
-      self.simpleDenki(originalMessage, `\`\`\`${cubeify.generateCube(messaji, dashed)}\`\`\``);
+      self.simpleDenki(
+        originalMessage,
+        `\`\`\`${cubeify.generateCube(messaji, dashed)}\`\`\``,
+      );
     }
   }
 

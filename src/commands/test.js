@@ -10,7 +10,7 @@ class Test extends DenkibotCommand {
   }
 
   respond(originalMessage) {
-    this.simpleDenki(originalMessage, "!ical");
+    this.simpleDenki(originalMessage, '!ical');
   }
 }
 

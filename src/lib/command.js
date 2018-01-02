@@ -27,17 +27,15 @@ class DenkibotCommand {
   }
 
   coinflip(originalMessage, denkiChoices) {
-    const winner = denkiChoices[Math.floor(Math.random() * denkiChoices.length)];
+    const winner =
+      denkiChoices[Math.floor(Math.random() * denkiChoices.length)];
     this.parent.simpleDenki(originalMessage, `${winner}`);
   }
 
   getDenkiTextFile(originalMessage, file) {
     const textfile = require(file);
     const text = textfile.denki();
-    this.parent.simpleDenki(
-      originalMessage,
-      `${text}`
-    );
+    this.parent.simpleDenki(originalMessage, `${text}`);
   }
 
   compliment(originalMessage) {
@@ -59,22 +57,27 @@ class DenkibotCommand {
     if (this.spookycount[`"${originalMessage.user}"`] === 13) {
       const exec = require('child_process').exec;
 
-      const child = exec(`cubeify stopit${self.getUsernameById(originalMessage.user)}`,
-        function (error, stdout, stderr) {
+      const child = exec(
+        `cubeify stopit${self.getUsernameById(originalMessage.user)}`,
+        function(error, stdout, stderr) {
           console.log(`stdout: ${stdout}`);
           // console.log('stderr: ' + stderr);
           self.simpleDenki(originalMessage, `\`\`\` ${stdout} \`\`\``);
           if (error !== null) {
             console.log(`exec error: ${error}`);
           }
-        });
+        },
+      );
     } else if (this.spookycount[`"${originalMessage.user}"`] === 14) {
       this.getDenkiTextFile(originalMessage, '../constants/stoppls');
       this.spookycount[`"${originalMessage.user}"`] = 1;
     } else if (this.spookycount[`"${originalMessage.user}"`] > r) {
       this.simpleDenki(originalMessage, `${spooky}`);
     } else {
-      this.simpleDenki(originalMessage, `<@${self.getUsernameById(originalMessage.user)}> ${compliment}`);
+      this.simpleDenki(
+        originalMessage,
+        `<@${self.getUsernameById(originalMessage.user)}> ${compliment}`,
+      );
     }
   }
 }

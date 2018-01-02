@@ -16,9 +16,9 @@ class Test extends DenkibotCommand {
     try {
       const x = math.eval(messaji);
       this.simpleDenki(originalMessage, x);
-    } catch(err) {
+    } catch (err) {
       //
-      this.simpleDenki(originalMessage, "no");
+      this.simpleDenki(originalMessage, 'no');
     }
   }
 }

@@ -34,7 +34,7 @@ function generatecompliment() {
     `${winner} thanks you're cool, ${loser}`,
     `thank you for tolerating ${winner} today`,
     `${winner} loves ${loser}`,
-    `${winner} owes ${loser} a dollar`
+    `${winner} owes ${loser} a dollar`,
   ];
   var compliment = compliments[Math.floor(Math.random() * compliments.length)];
 
@@ -43,4 +43,4 @@ function generatecompliment() {
 
 exports.getCompliment = () => {
   return generatecompliment();
-}
+};

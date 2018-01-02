@@ -10,7 +10,7 @@ class Emojify extends DenkibotCommand {
   }
 
   respond(originalMessage) {
-    if(originalMessage.text.match(/:(.*?):/)){
+    if (originalMessage.text.match(/:(.*?):/)) {
       const self = this.parent;
       let messaji = originalMessage.text;
       messaji = messaji.replace('!emojify', '');

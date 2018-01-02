@@ -6,7 +6,7 @@ const config = require('../config');
 class Moments extends DenkibotCommand {
   constructor(parent) {
     super(parent);
-    this.keywords = ['!memory', '!memories', '!quotes', '!moments', '!mangomoments', '!mangoquotes', '!mangomemories'];
+    this.keywords = ['!memory', '!memories', '!quotes', '!moments'];
     this.name = '!memory';
   }
 
@@ -43,21 +43,21 @@ class Moments extends DenkibotCommand {
   respond(originalMessage) {
     if (originalMessage.text.indexOf('add') !== -1) {
       this.addMoment(originalMessage);
-    } else if(originalMessage.text.indexOf('delete') !== -1) {
+    } else if (originalMessage.text.indexOf('delete') !== -1) {
       if (originalMessage.user === config.meID) {
         this.deleteMoment(originalMessage);
-        console.log("deleted")
+        console.log('deleted');
       } else {
-        this.simpleDenki(originalMessage, "!no");
+        this.simpleDenki(originalMessage, '!no');
       }
-    } else if(originalMessage.text.indexOf('blame') !== -1) {
+    } else if (originalMessage.text.indexOf('blame') !== -1) {
       this.getMomentBlame(originalMessage);
-    } else if(originalMessage.text.indexOf('init') !== -1) {
+    } else if (originalMessage.text.indexOf('init') !== -1) {
       if (originalMessage.user === config.meID) {
         this.initMoment(originalMessage);
-        console.log("initialize database complete")
+        console.log('initialize database complete');
       } else {
-        this.simpleDenki(originalMessage, "!no");
+        this.simpleDenki(originalMessage, '!no');
       }
     } else {
       this.getMoment(originalMessage);

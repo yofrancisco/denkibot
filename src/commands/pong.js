@@ -10,7 +10,7 @@ class Pong extends DenkibotCommand {
   }
 
   respond(originalMessage) {
-    this.simpleDenki(originalMessage, "!pang");
+    this.simpleDenki(originalMessage, '!pang');
   }
 }
 

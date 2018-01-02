@@ -14,7 +14,10 @@ class Winner extends DenkibotCommand {
     const self = this.parent;
     const winner = names[Math.floor(Math.random() * names.length)];
 
-    this.simpleDenki(originalMessage, `the winner is: ${winner} :kissing_heart:`);
+    this.simpleDenki(
+      originalMessage,
+      `the winner is: ${winner} :kissing_heart:`,
+    );
   }
 
   respond(originalMessage) {

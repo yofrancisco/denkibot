@@ -15,7 +15,10 @@ class Wiki extends DenkibotCommand {
     messaji = messaji.replace('!wiki', '');
     messaji = messaji.trim();
     messaji = messaji.replace(/ /g, '_');
-    this.simpleDenki(originalMessage, `https://en.wikipedia.org/wiki/${messaji}`);
+    this.simpleDenki(
+      originalMessage,
+      `https://en.wikipedia.org/wiki/${messaji}`,
+    );
   }
 }
 

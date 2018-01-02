@@ -15,7 +15,10 @@ class Google extends DenkibotCommand {
     messaji = messaji.replace(/!google/g, '');
     messaji = messaji.trim();
     messaji = messaji.replace(/ /g, '+');
-    this.simpleDenki(originalMessage, `http://www.google.com/search?q=${messaji}`);
+    this.simpleDenki(
+      originalMessage,
+      `http://www.google.com/search?q=${messaji}`,
+    );
   }
 }
 
