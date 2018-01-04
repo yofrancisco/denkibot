@@ -55,6 +55,17 @@ create table if not exists mangomoments (
   on delete cascade on update cascade
 );
 `,
+  `
+create table if not exists lists (
+  no_id integer primary key autoincrement,
+  list varchar(255) not null,
+  listitem varchar(255),
+  user_id varchar(255) not null,
+  date_added datetime not null,
+  foreign key (user_id) references users(user_id)
+  on delete cascade on update cascade
+);
+`,
 ];
 
 exports.userSCHEMA = () => userSCHEMA;

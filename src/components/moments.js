@@ -230,7 +230,7 @@ function getMoment(originalMessage, self) {
 }
 
 function initMoment(originalMessage, self) {
-  const initMoments = [''];
+  const initMoments = ['test'];
 
   self.db.serialize(() => {
     initMoments.forEach(element => {
