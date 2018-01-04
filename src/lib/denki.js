@@ -97,6 +97,19 @@ Denkibot.prototype.simpleDenki = function(originalMessage, message) {
   });
 };
 
+Denkibot.prototype.betterDenki = function({
+  channelName,
+  originalMessage,
+  message,
+  options,
+}) {
+  const self = this;
+  this.denkibotEX.chat.postMessage(channelName, `${message}`, {
+    as_user: true,
+    ...options,
+  });
+};
+
 Denkibot.prototype.confuseDenki = function(
   originalMessage,
   channelName,
