@@ -1,5 +1,6 @@
 const natural = require('natural');
 const table = require('text-table');
+const lodash = require('lodash');
 
 function getListOfLists(originalMessage, self) {
   //
@@ -31,11 +32,13 @@ function getListOfLists(originalMessage, self) {
 }
 
 function insertListItem(originalMessage, self) {
-  const list = originalMessage.text
-    .split('add')[0]
-    .replace(/!list/, '')
-    .trim();
-  const listItem = originalMessage.text.split('add')[1].trim();
+  const list = lodash.escape(
+    originalMessage.text
+      .split('add')[0]
+      .replace(/!list/, '')
+      .trim(),
+  );
+  const listItem = lodash.escape(originalMessage.text.split('add')[1].trim());
   console.log(list);
   console.log(listItem);
 
@@ -55,7 +58,9 @@ function insertListItem(originalMessage, self) {
 
   self.simpleDenki(
     originalMessage,
-    `<@${originalMessage.user}> added \`\`\`\n${listItem}\`\`\` to list \`${list}\``,
+    `<@${
+      originalMessage.user
+    }> added \`\`\`\n${listItem}\`\`\` to list \`${list}\``,
   );
 }
 
@@ -91,7 +96,9 @@ function deleteListItem(originalMessage, self) {
 
     self.simpleDenki(
       originalMessage,
-      `<@${originalMessage.user}> deleted \`#${listItemNo}\` to list \`${list}\``,
+      `<@${
+        originalMessage.user
+      }> deleted \`#${listItemNo}\` to list \`${list}\``,
     );
   } else {
     self.simpleDenki(originalMessage, `<@${originalMessage.user}> ERROR`);

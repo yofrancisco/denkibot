@@ -13,6 +13,7 @@
     "cubeify": "^0.0.4",
     "global": "^4.3.1",
     "htmlparser2": "^3.9.2",
+    "lodash": "^4.17.4",
     "mathjs": "^3.13.1",
     "natural": "^0.4.0",
     "pokemon": "^1.2.0",
