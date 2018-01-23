@@ -3,8 +3,6 @@ const table = require('text-table');
 const lodash = require('lodash');
 
 function getListOfLists(originalMessage, self) {
-  //
-
   self.db.all(
     `
     select list
@@ -32,17 +30,17 @@ function getListOfLists(originalMessage, self) {
 }
 
 function insertListItem(originalMessage, self) {
+  const regex = /add(.*)/;
+
   const list = lodash.escape(
     originalMessage.text
       .split('add')[0]
       .replace(/!list/, '')
       .trim(),
   );
-  const listItem = lodash.escape(originalMessage.text.split('add')[1].trim());
+  const listItem = lodash.escape(originalMessage.text.split(regex)[1].trim());
   console.log(list);
   console.log(listItem);
-
-  const regex = '/add (.*?)/g';
 
   self.db.serialize(() => {
     self.db.run(
@@ -58,14 +56,15 @@ function insertListItem(originalMessage, self) {
 
   self.simpleDenki(
     originalMessage,
-    `<@${
-      originalMessage.user
-    }> added \`\`\`\n${listItem}\`\`\` to list \`${list}\``,
+    `<@${lodash.unescape(
+      originalMessage.user,
+    )}> added \`\`\`\n${lodash.unescape(listItem)}\`\`\` to list \`${list}\``,
   );
 }
 
 function deleteListItem(originalMessage, self) {
-  const list = originalMessage.text
+  const list = lodash
+    .escape(originalMessage.text)
     .split('delete')[0]
     .replace(/!list/, '')
     .trim();
@@ -96,9 +95,9 @@ function deleteListItem(originalMessage, self) {
 
     self.simpleDenki(
       originalMessage,
-      `<@${
-        originalMessage.user
-      }> deleted \`#${listItemNo}\` to list \`${list}\``,
+      `<@${lodash.unescape(
+        originalMessage.user,
+      )}> deleted \`#${listItemNo}\` to list \`${list}\``,
     );
   } else {
     self.simpleDenki(originalMessage, `<@${originalMessage.user}> ERROR`);
@@ -106,7 +105,10 @@ function deleteListItem(originalMessage, self) {
 }
 
 function getList(originalMessage, self) {
-  const list = originalMessage.text.replace(/!list/, '').trim();
+  const list = lodash
+    .escape(originalMessage.text)
+    .replace(/!list/, '')
+    .trim();
 
   self.db.all(
     `
@@ -118,7 +120,7 @@ function getList(originalMessage, self) {
       console.log(listresults);
       const data = listresults.map((listresult, index) => [
         `${index + 1}.`,
-        listresult.listitem,
+        lodash.unescape(listresult.listitem),
       ]);
       if (data.length === 0) {
         self.simpleDenki(
@@ -130,9 +132,9 @@ function getList(originalMessage, self) {
       } else {
         self.simpleDenki(
           originalMessage,
-          `<@${originalMessage.user}> \`\`\`${list} list items:\n${table(
-            data,
-          )}\`\`\``,
+          `<@${originalMessage.user}> \`\`\`${lodash.unescape(
+            list,
+          )} list items:\n${table(data)}\`\`\``,
         );
       }
     },
