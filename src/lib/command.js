@@ -40,8 +40,8 @@ class DenkibotCommand {
 
   compliment(originalMessage) {
     const self = this.parent;
-    const getCompliment = require('../components/compliments');
-    const undertale = require('../components/undertale');
+    const getCompliment = require('../../components/compliments');
+    const undertale = require('../../components/undertale');
     const compliment = getCompliment.getCompliment();
     const spooky = undertale.getCompliment(originalMessage);
     // const r = Math.random() * 10 + 4;

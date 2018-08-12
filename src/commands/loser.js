@@ -1,7 +1,7 @@
 'use strict';
 
 const DenkibotCommand = require('../lib/command.js');
-const names = require('../constants/names');
+const names = require('../../constants/names');
 
 class Loser extends DenkibotCommand {
   constructor(parent) {

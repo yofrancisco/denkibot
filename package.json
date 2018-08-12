@@ -5,12 +5,14 @@
   "author": "denki",
   "main": "denkibot.js",
   "scripts": {
-    "denki": "node src/denkibot.js"
+    "denki": "node src/denkibot.js",
+    "denki-disco": "node discord/main.js"
   },
   "license": "MIT",
   "dependencies": {
     "@slack/client": "^3.10.0",
     "cubeify": "^0.0.4",
+    "discord.js": "^11.4.0",
     "global": "^4.3.1",
     "htmlparser2": "^3.9.2",
     "lodash": "^4.17.4",

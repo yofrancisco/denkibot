@@ -1,4 +1,4 @@
 node_modules
-src/config.js
+config.js
 _data/denkibot.db
 npm-debug.log
