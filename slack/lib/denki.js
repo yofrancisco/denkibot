@@ -14,6 +14,11 @@ const MemoryDataStore = require('@slack/client').MemoryDataStore;
 const initializeDatabase = require('./initialize-database');
 const config = require('../config');
 
+const db = new SQLite.Database(config.dbPath);
+
+// Make delete and cascade work.
+db.run('PRAGMA foreign_keys = ON');
+
 const Denkibot = function Constructor(settings) {
   this.settings = settings;
   this.settings.name = this.settings.name || 'denkibot';
@@ -35,7 +40,9 @@ const Denkibot = function Constructor(settings) {
     if (path.extname(_path) === '.js') {
       const _command = require(_path);
       console.log(`Loaded command ${_path}`);
-      this.commands.push(new _command({ parent: this, environment: 'SLACK' }));
+      this.commands.push(
+        new _command({ parent: this, environment: 'SLACK', db }),
+      );
     }
   });
 };
@@ -61,22 +68,18 @@ Denkibot.prototype.run = function() {
 
 Denkibot.prototype.initializeDatabase = function() {
   console.log(`Initializing Database path: "${this.dbPath}"`);
-  this.db = new SQLite.Database(this.dbPath);
-
-  // Make delete and cascade work.
-  this.db.run('PRAGMA foreign_keys = ON');
 
   initializeDatabase.userSCHEMA().forEach(schema => {
-    this.db.run(schema);
+    db.run(schema);
   });
 
   const self = this;
-  this.db.get('select * from users limit 1', (err, row) => {
+  db.get('select * from users limit 1', (err, row) => {
     if (row === undefined) {
       // Result set is empty, initialize this table since other tables depend
       // on it.
-      this.db.serialize(() => {
-        const statement = this.db.prepare('insert into users values (?, ?)');
+      db.serialize(() => {
+        const statement = db.prepare('insert into users values (?, ?)');
         self.rtmStartData.users.forEach(user => {
           statement.run([user.id, user.name]);
         });
@@ -86,7 +89,7 @@ Denkibot.prototype.initializeDatabase = function() {
   });
 
   initializeDatabase.componentsSCHEMA().forEach(schema => {
-    this.db.run(schema);
+    db.run(schema);
   });
 };
 

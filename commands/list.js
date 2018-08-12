@@ -10,14 +10,14 @@ class List extends DenkibotCommand {
     this.name = '!list';
   }
 
-  respond(originalMessage) {
-    const self = this.parent;
+  respond({ originalMessage, originalText }) {
+    const self = this;
     // this.simpleDenki(originalMessage, '!ical');
-    if (originalMessage.text.indexOf('!lists') !== -1) {
+    if (originalText.indexOf('!lists') !== -1) {
       list.getListOfLists(originalMessage, self);
-    } else if (originalMessage.text.indexOf(' add ') !== -1) {
+    } else if (originalText.indexOf(' add ') !== -1) {
       list.insertListItem(originalMessage, self);
-    } else if (originalMessage.text.indexOf(' delete ') !== -1) {
+    } else if (originalText.indexOf(' delete ') !== -1) {
       list.deleteListItem(originalMessage, self);
     } else {
       list.getList(originalMessage, self);

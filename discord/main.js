@@ -2,17 +2,23 @@ const Discord = require('discord.js');
 const config = require('./config');
 const fs = require('fs');
 const path = require('path');
+const SQLite = require('sqlite3').verbose();
 
 const client = new Discord.Client();
 
 const commands = [];
+
+const db = new SQLite.Database(config.dbPath);
+
+// Make delete and cascade work.
+db.run('PRAGMA foreign_keys = ON');
 
 fs.readdirSync(fs.realpathSync('./commands')).forEach(command => {
   const _path = path.join(fs.realpathSync('./commands'), command);
   if (path.extname(_path) === '.js') {
     const _command = require(_path);
     console.log(`Loaded command ${_path}`);
-    commands.push(new _command({ environment: 'DISCORD' }));
+    commands.push(new _command({ environment: 'DISCORD', db }));
   }
 });
 

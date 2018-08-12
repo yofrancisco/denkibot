@@ -13,12 +13,13 @@ const environments = {
 };
 
 class DenkibotCommand {
-  constructor({ parent, environment }) {
+  constructor({ parent, environment, db }) {
     this.parent = parent;
     this.environment = environment;
     this.keywords = [];
     this.name = '';
     this.spookycount = spookycount;
+    this.db = db;
   }
 
   respond({ originalMessage, originalText, message }) {

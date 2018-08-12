@@ -13,17 +13,15 @@ function getListOfLists(originalMessage, self) {
       console.log(listsresults);
       const data = listsresults.map((list, index) => [list.list]);
       if (data.length === 0) {
-        self.simpleDenki(
+        self.simpleDenki({
           originalMessage,
-          `<@${self.getUsernameById(
-            originalMessage.user,
-          )}> \`!list <list> add <listItem>\` to create a list`,
-        );
+          message: `\`!list <list> add <listItem>\` to create a list`,
+        });
       } else {
-        self.simpleDenki(
+        self.simpleDenki({
           originalMessage,
-          `<@${originalMessage.user}> \`\`\`Lists:\n${table(data)}\`\`\``,
-        );
+          message: `\`\`\`Lists:\n${table(data)}\`\`\``,
+        });
       }
     },
   );
@@ -54,12 +52,12 @@ function insertListItem(originalMessage, self) {
     return;
   });
 
-  self.simpleDenki(
+  self.simpleDenki({
     originalMessage,
-    `<@${lodash.unescape(
-      originalMessage.user,
-    )}> added \`\`\`\n${lodash.unescape(listItem)}\`\`\` to list \`${list}\``,
-  );
+    message: `added \`\`\`\n${lodash.unescape(
+      listItem,
+    )}\`\`\` to list \`${list}\``,
+  });
 }
 
 function deleteListItem(originalMessage, self) {
@@ -93,12 +91,10 @@ function deleteListItem(originalMessage, self) {
       return;
     });
 
-    self.simpleDenki(
+    self.simpleDenki({
       originalMessage,
-      `<@${lodash.unescape(
-        originalMessage.user,
-      )}> deleted \`#${listItemNo}\` to list \`${list}\``,
-    );
+      message: `deleted \`#${listItemNo}\` to list \`${list}\``,
+    });
   } else {
     self.simpleDenki(originalMessage, `<@${originalMessage.user}> ERROR`);
   }
@@ -123,19 +119,17 @@ function getList(originalMessage, self) {
         lodash.unescape(listresult.listitem),
       ]);
       if (data.length === 0) {
-        self.simpleDenki(
+        self.simpleDenki({
           originalMessage,
-          `<@${self.getUsernameById(
-            originalMessage.user,
-          )}> \`!list <list> add <listItem>\` to create this list`,
-        );
+          message: `\`!list <list> add <listItem>\` to create this list`,
+        });
       } else {
-        self.simpleDenki(
+        self.simpleDenki({
           originalMessage,
-          `<@${originalMessage.user}> \`\`\`${lodash.unescape(
-            list,
-          )} list items:\n${table(data)}\`\`\``,
-        );
+          message: `\`\`\`${lodash.unescape(list)} list items:\n${table(
+            data,
+          )}\`\`\``,
+        });
       }
     },
   );
