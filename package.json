@@ -5,7 +5,7 @@
   "author": "denki",
   "main": "denkibot.js",
   "scripts": {
-    "denki": "node src/denkibot.js",
+    "denki": "node slack/main.js",
     "denki-disco": "node discord/main.js"
   },
   "license": "MIT",

@@ -7,38 +7,32 @@ const client = new Discord.Client();
 
 const commands = [];
 
-fs.readdirSync(fs.realpathSync('./discord/commands')).forEach(command => {
-  const _path = path.join(fs.realpathSync('./discord/commands'), command);
+fs.readdirSync(fs.realpathSync('./commands')).forEach(command => {
+  const _path = path.join(fs.realpathSync('./commands'), command);
   if (path.extname(_path) === '.js') {
     const _command = require(_path);
     console.log(`Loaded command ${_path}`);
-    commands.push(new _command(this));
+    commands.push(new _command({ environment: 'DISCORD' }));
   }
 });
 
-// const client = new Discord.Client({
-//   token: 'MjgwMzAzMTM2MDk3NDM1NjQ4.DlFymQ.2UNXi1Te7sNTUaZktnZb9rl4a1k',
-//   autorun: true,
-// });
-//
-// client.on('ready', () => {
-//   console.log(`Logged in as ${client.user.tag}!`);
-// });
-
-const _command = require('./commands/coinflip');
-const command = new _command();
-
 client.on('message', msg => {
-  if (msg.content.indexOf('!') !== -1) {
-    // msg.reply('Pong!');
-    commands.forEach(command => {
-      command.keywords.forEach(keyword => {
-        if (msg.content.indexOf(keyword) !== -1) {
-          console.log(`responding: ${command.name}, with command: ${keyword}`);
-          command.respond(msg);
-        }
+  if (!msg.author.bot) {
+    if (msg.content.indexOf('!') !== -1) {
+      commands.forEach(command => {
+        command.keywords.forEach(keyword => {
+          if (msg.content.indexOf(keyword) !== -1) {
+            console.log(
+              `responding: ${command.name}, with command: ${keyword}`,
+            );
+            command.respond({
+              originalMessage: msg,
+              originalText: msg.content,
+            });
+          }
+        });
       });
-    });
+    }
   }
 });
 
